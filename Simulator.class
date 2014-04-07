@@ -1,0 +1,63 @@
+import java.util.PriorityQueue;
+
+/*
+ * This Class contain's code to simulate a one runway airport.
+ * Written by: Assa Singh
+ * Date: 2/03/14
+ */
+
+public class Simulation {
+	
+	public static void main(String[] args) {
+		
+	}
+	
+	private static PriorityQueue<String> queue;
+	
+	private static int runTime; //simulation loops
+	private static final int WIDTH = 50;
+	//aircraft arrival probabilities needed 
+//	private static final int SEED = 42;
+//	private static final Random rand  = new Random(SEED);
+	private Runway runway; 
+	private RunwayStats updatedStates;
+	private 
+	
+	
+	/**
+	 * @param number of loops to run the simulation 
+	 * @param seed random seed
+	 */
+	public Simulation(int loops, int seed){
+		this(WIDTH, seed); //construct a runway with a seed
+		runTime = loops; //runTime gets assigned no. of loops
+		queue = new PriorityQueue<String>(); //initilising a priority queue
+		
+	}
+	
+	/**
+	 *Run the simulation 
+	 */
+	public static void run(){
+		int r = runTime; 
+		for(int i = 0; i < r; i++){
+			
+		}
+	}
+
+	/**
+	 * @return no of loops
+	 */
+	public static int getRunTime() {
+		return runTime;
+	}
+	
+	
+	public void reset(){
+		//reset the runway
+		runTime = 0;
+		runway.clear(); //clear() called from the Runway class
+		
+	}
+
+}
