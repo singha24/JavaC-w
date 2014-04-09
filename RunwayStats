@@ -1,0 +1,91 @@
+import java.util.HashMap;
+import java.util.Iterator;
+
+public class RunwayStats {
+	
+	// Counters for each type of aircraft (commercial, light and glider).
+	private HashMap<Class<? extends AirCraft>, Counter> counters;
+	//whether the counts are currently up to date
+	private boolean countsValid;
+	
+	//constructor for RunwayStats
+	public RunwayStats(){
+		//set up a collection of aircraft counters
+		counters = new HashMap<Class<? extends AirCraft>, Counter>();
+		countsValid = true;
+	}
+	
+	//resets the collection of counters (i assume this just means to clear it)
+	public void reset(){
+		countsValid = false;
+		Iterator<Class<? extends AirCraft>> keys = counters.keySet().iterator();
+		while(keys.hasNext()){
+			Counter count = counters.get(keys.next());
+			count.reset();
+		}	
+	}
+	
+	//returns a string describing the aircraft on the runway and airborne
+	public String getRunwayStats(Runway runway){
+		StringBuffer buffer = new StringBuffer();
+		//go through the counters and add names/counts to the buffer
+		Iterator<Class<? extends AirCraft>> keys = counters.keySet().iterator();
+		while(keys.hasNext()){
+			Counter infoToPrint = counters.get(keys.next());
+			buffer.append(infoToPrint.getName());
+			buffer.append(": ");
+			buffer.append(infoToPrint.getTakeOffCount());
+			buffer.append(": ");
+			buffer.append(infoToPrint.getLandingCount());
+			buffer.append(' ');
+		}
+		return buffer.toString();		
+	}
+	
+	public boolean isViable(Runway runway){
+		//how many counts are non-zero
+		int nonZero = 0;
+		if(!countsValid){
+			generateTakeOffCounts(runway);
+		}
+		Iterator<Class<? extends AirCraft>> keys = counters.keySet().iterator();
+		while(keys.hasNext()){
+			Counter info = counters.get(keys.next());
+			if(info.getTakeOffCount() > 0 || info.getLandingCount() > 0) {
+				nonZero ++;
+			}
+			return nonZero > 1;
+		}		
+		return false; //this is just a placeholder, change to appropriate when possible
+	}
+	
+	private void generateTakeOffCounts(Runway runway){
+		reset();
+		for(int row = 0; row < runway.getWidth(); row ++){
+			AirCraft aircraft = runway.getAircraftAt(row);
+			if(aircraft != null){
+				incrmentTakeOffCount(aircraft.getClass());
+			}
+		}
+	}
+
+	private void incrmentTakeOffCount(Class<? extends AirCraft> aircraftClass) {
+		Counter cnt = counters.get(aircraftClass);
+		if(cnt == null){
+			cnt = new Counter(aircraftClass.getName());
+			counters.put(aircraftClass,  cnt);
+		}
+		cnt.incrementTakeOff();
+	}
+	
+	private void incrmentLandingCount(Class<? extends AirCraft> aircraftClass) {
+		Counter cnt = counters.get(aircraftClass);
+		if(cnt == null){
+			cnt = new Counter(aircraftClass.getName());
+			counters.put(aircraftClass,  cnt);
+		}
+		cnt.incrementLanding();
+	}
+	
+	
+}
