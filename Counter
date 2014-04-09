@@ -22,7 +22,6 @@ public class Counter {
 	//return the nuymber of landings for this plane
 	public int getLandingCount(){
 		return landingCount;
-		test
 	}
 	
 	//return the name of this aircraft
