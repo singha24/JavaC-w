@@ -1,0 +1,103 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+public class AirCraftFactory {
+  
+  // this is value
+	// p and must be
+	// changed for
+	// safety of
+	// aircraft
+	
+
+	private static final double commercialCreationProbability = 0.95; 
+	
+
+	
+	private static final double lightCreationProbability = 0.005;
+	private static final double gliderCreationProbability = 0.002;
+
+	static ArrayList<Plane> listPlanes = new ArrayList<Plane>(); // this should be a priority queue in runway class
+
+	//statics only exist in a single existance 
+
+
+	//private static long seedTime = System.currentTimeMillis(); good idea to implement after testing
+	
+	private static double num; // maybe make local
+
+	private static int listPlaneSize = 100; // size of array list , this should be in runway class
+
+	private static int seed = 20;
+	
+	
+
+	public AirCraftFactory1(int seed) {
+		seed = this.seed;
+		
+		buildPlanes();
+
+	}
+	
+
+	public static void main(String[] args) {
+
+		System.out.println(seed);
+
+		buildPlanes();
+
+	}
+
+	/*
+	 * private static int randomGenerator() { Random generator = new
+	 * Random(seedTime); // is random.math better num = generator.nextInt(3) +
+	 * 1; System.out.println(num); return num; }
+	 */
+
+	/*
+	 * private static double randomGenerator() { Random generator = new
+	 * Random(seedTime); // is random.math better num = generator.nextDouble();
+	 * System.out.println(num); return num; }
+	 */
+
+	public static void buildPlanes() {
+		Random generator = new Random(seed);
+		for (int i = 0; i < listPlaneSize; i++) // ensures the queue is full , could be implemented seperatly
+		{
+			num = generator.nextDouble();
+			System.out.println(num);
+
+			if (num <= gliderCreationProbability) { // these names are too big
+
+				Plane glider = new Glider();
+				listPlanes.add(glider);
+				System.out.println("glider added");
+
+			}
+
+			else if (num <= lightCreationProbability) {
+
+				Plane lightAircraft = new LightAircraft();
+				listPlanes.add(lightAircraft);
+				System.out.println("Light Aircraft added");
+
+			}
+
+			else if (num <= commercialCreationProbability) {
+
+				Plane commercialAircraft = new CommericalAircraft();
+				listPlanes.add(commercialAircraft);
+				System.out.println("Commercial Aircraft added");
+
+			}
+		}
+
+	}
+
+	
+	public ArrayList<Plane> getQueue() {
+
+		return listPlanes; // no point of this if the queue is within runway
+	}
+
+}
