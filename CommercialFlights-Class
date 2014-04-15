@@ -1,0 +1,29 @@
+
+public class CommercialFlights extends Aircraft {
+	//Instance Variables
+	private int waitTime;
+	private int takeOffTime;
+	private int landingTime;
+	
+	//Constructor
+	public CommercialFlights(){
+		Aircraft commercialFlights = new CommercialFlights();
+		int waitTime = 0;
+		int takeOffTime = 2;
+		int landingTime = 3;
+		
+	}
+	//Accessor Methods
+	public int getWaitTime(){
+		return waitTime;
+	}
+	//Calculation Method
+	public int incrementWaitTime(){
+		return waitTime++;
+	}
+	public void fly(){
+		Aircraft commercialFlights = new CommercialFlights();
+		LightAircraft.fly();
+		System.out.println("lightAircraft flying");
+	}
+}
