@@ -1,0 +1,29 @@
+
+public class Glider extends Aircraft {
+	//Instance Variables
+	private int waitTime;
+	private int takeOffTime;
+	private int landingTime;
+	
+	//Constructor
+	public Glider(){
+		Aircraft glider = new Glider();
+		int waitTime = 0;
+		int takeOffTime = 3;
+		int landingTime = 4;
+		
+	}
+	//Accessor Methods
+	public int getWaitTime(){
+		return waitTime;
+	}
+	//Calculation Method
+	public int incrementWaitTime(){
+		return waitTime++;
+	}
+	public void fly(){
+		Aircraft glider = new Glider();
+		LightAircraft.fly();
+		System.out.println("lightAircraft flying");
+	}
+}
