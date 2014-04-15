@@ -1,0 +1,30 @@
+
+public abstract class Aircraft {
+	//Instance Variables
+	private int waitTime;
+	private int takeOffTime;
+	private int landingTime;
+	
+	//Constructor
+	public Aircraft(){
+		
+	}
+	//Accessor Methods
+	public int getWaitTime(){
+		return waitTime;
+	}
+	public int getTakeOffTime(){
+		return takeOffTime;
+	}
+	public int getLandingTime(){
+		return landingTime;
+	}
+	//Calculation Method
+	public int incrementWaitTime(){
+		
+		return waitTime++;
+	}
+	public void fly(){
+		
+	}
+}
