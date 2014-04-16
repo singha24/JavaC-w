@@ -1,0 +1,67 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+public class Runway {
+	private boolean isClear;
+	private int clearRunway;
+	
+	
+	private Queue<AirCraft> runwayQueue ;       
+    private Queue<AirCraft> airBorneQueue; 
+    
+    
+
+	    public Runway() {
+	        isClear = true;
+	          
+	      //  runwayQueue = new LinkedList<Aircraft>();
+	       // airBorneQueue = new LinkedList<Aircraft>();
+	      //  aircraft = new LinkedList<Aircraft>();
+	        
+      
+	        
+	}
+	    
+	    
+	  public  void clearRunway(){
+		
+				for(int row = 0; row < width; row++) {
+				
+						runway[row] = null;
+						}
+
+	  }
+		
+
+	    public boolean isClear() {
+	        return isClear;
+	    }
+
+	public void setClear(boolean isClear) {
+	        this.isClear = isClear;
+	    }
+	
+	
+	public Runway getRunway(){
+		return runwayQueue;
+		
+	}
+	
+	public  Runway getAirborneQueue(){
+		return airBorneQueue;
+		
+	}
+	
+	public void place(airCraft AirCraft){
+		
+		
+	}
+	
+	public int getAircraft(posInQueue, Aircraft){
+		
+		
+	} 
+		
+	
+	
