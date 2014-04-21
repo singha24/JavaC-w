@@ -1,67 +1,67 @@
-import java.util.LinkedList;
 import java.util.Queue;
-
+import java.util.LinkedList;
 
 public class Runway {
-	private boolean isClear;
-	private int clearRunway;
-	
-	
-	private Queue<AirCraft> runwayQueue ;       
-    private Queue<AirCraft> airBorneQueue; 
+	// queue for taking off planes 
+	private  LinkedList<AirCraft> runwayQueue ; 
+	//queue for landing planes
+    private  LinkedList<AirCraft> airBorneQueue; 
+    private counter Counter;
+    private boolean isClear;
     
     
+	
+    public Runway() {
+    	runwayQueue = new  PriorityQueue<Aircraft>();
+    	airBorneQueue = new  PriorityQueue<Aircraft>();
+        counter = new Counter();
+        isClear = true;
+}
+    
+    public void run(){
+    	
+    	for (Aircraft aircraft : runwayQueue.toArray(new Aircraft[runwayQueue.size()])){ 
+    	 aircraft.run();
+    	 runwayQueue.add(aircraft);
+    	 counter.incrementWaitingTime(aircraft.getWaitingTime());
+    	 }
+    
+    for (Aircraft  aircraft : airBorneQueue.toArray(new Aircraft[airBorneQueue.size()])) {
+		
+    	aircraft.run();
+    	airBorneQueue.add(aircraft);
+    	counter.incrementWaitingTime(aircraft.getWaitingTime());
+    }
+    		   	
 
-	    public Runway() {
-	        isClear = true;
-	          
-	      //  runwayQueue = new LinkedList<Aircraft>();
-	       // airBorneQueue = new LinkedList<Aircraft>();
-	      //  aircraft = new LinkedList<Aircraft>();
-	        
-      
-	        
-	}
-	    
-	    
-	  public  void clearRunway(){
-		
-				for(int row = 0; row < width; row++) {
-				
-						runway[row] = null;
-						}
+}
 
-	  }
-		
+  public  LinkedList<Aircraft> getAirborneQueue(){
+    	return airBorneQueue;
+    }
+public  LinkedList<Aircraft> getRunwayQueue() {
+	return runwayQueue ;
+}
 
-	    public boolean isClear() {
-	        return isClear;
-	    }
 
-	public void setClear(boolean isClear) {
-	        this.isClear = isClear;
-	    }
+public Counter getCounter() {
+	return counter;
+}
+
+public boolean isClear() {
+return isClear;
+}
+
+public void setClear(boolean isClear) {
+this.isClear = isClear;
+}
+
+public void clearRunway() {
+	counter.clear();
+	airBorneQueue.clear();
+	runwayQueue.clear();
+}
+
+
 	
-	
-	public Runway getRunway(){
-		return runwayQueue;
-		
-	}
-	
-	public  Runway getAirborneQueue(){
-		return airBorneQueue;
-		
-	}
-	
-	public void place(airCraft AirCraft){
-		
-		
-	}
-	
-	public int getAircraft(posInQueue, Aircraft){
-		
-		
-	} 
-		
-	
-	
+}
