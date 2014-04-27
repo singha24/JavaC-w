@@ -1,71 +1,63 @@
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.LinkedList;
-//need to import priority queue? unless it should be LinkedList for the 
-//runway queues? (2nd/3rd lines of runway constructor) **1**
 
 public class Runway {
 	// queue for taking off planes 
-	private  LinkedList<AirCraft> runwayQueue ; //**1**
+	private  LinkedList<AirCraft> runwayQueue; //priority queue or linked list, which one?, first two lines in runway constructor
 	//queue for landing planes
-    private  LinkedList<AirCraft> airBorneQueue; //**1**
-    private counter Counter; //should be Counter counter
-    private boolean isClear;
-    
-    
-	
-    public Runway() {
-    	runwayQueue = new  PriorityQueue<Aircraft>(); //**1**
-    	airBorneQueue = new  PriorityQueue<Aircraft>(); //**1**
-        counter = new Counter(); 
-        //im not sure that one counter is made for the runway, i think its supposed to be a counter made each time an
-        //AirCraft is created and the counter should be used as the key, also counter should have a (String name) parameter
-        isClear = true;
-}
-    
-    public void run(){
-    	
-    	for (Aircraft aircraft : runwayQueue.toArray(new Aircraft[runwayQueue.size()])){ //typo, should be AirCraft aircraft //**2**
-    	 aircraft.run();
-    	 runwayQueue.add(aircraft);
-    	 counter.incrementWaitingTime(aircraft.getWaitingTime());
-    	 }
-    
-    for (Aircraft  aircraft : airBorneQueue.toArray(new Aircraft[airBorneQueue.size()])){ //typo, should be AirCraft aircraft //**2**
-		
-    	aircraft.run();
-    	airBorneQueue.add(aircraft);
-    	counter.incrementWaitingTime(aircraft.getWaitingTime());
-    }
-    		   	
-
-}
-
-  public  LinkedList<Aircraft> getAirborneQueue(){ //**1**
-    	return airBorneQueue;
-    }
-public  LinkedList<Aircraft> getRunwayQueue(){ //**1**
-	return runwayQueue ;
-}
+	private  LinkedList<AirCraft> airBorneQueue; //priority queue or linked list, which one?, first two lines in runway constructor
+	private Counter counter;
+	private boolean isClear;
 
 
-public Counter getCounter() {
-	return counter;
-}
 
-public boolean isClear() {
-return isClear;
-}
+	public Runway() {
+		runwayQueue = new  PriorityQueue<AirCraft>(); //priority queue or linked list, which one?
+		airBorneQueue = new  PriorityQueue<AirCraft>(); //priority queue or linked list, which one?
+		counter = new Counter(); //i think counters are supposed to be put into the lists with the aircraft, and it needs a name(String) passed as parameter
+		isClear = true;
+	}
 
-public void setClear(boolean isClear) {
-this.isClear = isClear;
-}
+	public void run(){
 
-public void clearRunway() {
-	counter.clear(); //change from clear to reset (thats what i called it in my counter class, i think)
-	airBorneQueue.clear();
-	runwayQueue.clear();
-}
+		for (AirCraft aircraft : runwayQueue.toArray(new AirCraft[runwayQueue.size()])){ 
+			aircraft.fly();
+			runwayQueue.add(aircraft);
+			counter.incrementWaitTime();//aircraft.getWaitingTime());
+		}
 
+		for (AirCraft  aircraft : airBorneQueue.toArray(new AirCraft[airBorneQueue.size()])) {
 
-	
+			aircraft.fly();
+			airBorneQueue.add(aircraft);
+			counter.incrementWaitTime();//aircraft.getWaitingTime());
+		}
+
+	}
+
+	public  LinkedList<AirCraft> getAirborneQueue(){
+		return airBorneQueue;
+	}
+	public  LinkedList<AirCraft> getRunwayQueue() {
+		return runwayQueue ;
+	}
+
+	public Counter getCounter() {
+		return counter;
+	}
+
+	public boolean isClear() {
+		return isClear;
+	}
+
+	public void setClear(boolean isClear) {
+		this.isClear = isClear;
+	}
+
+	public void clearRunway() {
+		counter.reset(); //changed from clear to reset (thats what i called it in my counter)
+		airBorneQueue.clear();
+		runwayQueue.clear();
+	}
 }
