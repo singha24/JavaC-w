@@ -2,19 +2,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class RunwayStats {
-	
+
 	// Counters for each type of aircraft (commercial, light and glider).
 	private HashMap<Class<? extends AirCraft>, Counter> counters;
 	//whether the counts are currently up to date
 	private boolean countsValid;
-	
+
 	//constructor for RunwayStats
 	public RunwayStats(){
 		//set up a collection of aircraft counters
 		counters = new HashMap<Class<? extends AirCraft>, Counter>();
 		countsValid = true;
 	}
-	
+
 	//resets the collection of counters (i assume this just means to clear it)
 	public void reset(){
 		countsValid = false;
@@ -24,7 +24,7 @@ public class RunwayStats {
 			count.reset();
 		}	
 	}
-	
+
 	//returns a string describing the aircraft on the runway and airborne
 	public String getRunwayStats(Runway runway){
 		StringBuffer buffer = new StringBuffer();
@@ -41,7 +41,7 @@ public class RunwayStats {
 		}
 		return buffer.toString();		
 	}
-	
+
 	public boolean isViable(Runway runway){
 		//how many counts are non-zero
 		int nonZero = 0;
@@ -58,7 +58,7 @@ public class RunwayStats {
 		}		
 		return false; //this is just a placeholder, change to appropriate when possible
 	}
-	
+
 	private void generateTakeOffCounts(Runway runway){
 		reset();
 		for(int row = 0; row < runway.getWidth(); row ++){
@@ -77,7 +77,7 @@ public class RunwayStats {
 		}
 		cnt.incrementTakeOff();
 	}
-	
+
 	private void incrmentLandingCount(Class<? extends AirCraft> aircraftClass) {
 		Counter cnt = counters.get(aircraftClass);
 		if(cnt == null){
@@ -86,6 +86,6 @@ public class RunwayStats {
 		}
 		cnt.incrementLanding();
 	}
-	
-	
+
+
 }
