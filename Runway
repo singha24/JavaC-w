@@ -1,32 +1,36 @@
 import java.util.Queue;
 import java.util.LinkedList;
+//need to import priority queue? unless it should be LinkedList for the 
+//runway queues? (2nd/3rd lines of runway constructor) **1**
 
 public class Runway {
 	// queue for taking off planes 
-	private  LinkedList<AirCraft> runwayQueue ; 
+	private  LinkedList<AirCraft> runwayQueue ; //**1**
 	//queue for landing planes
-    private  LinkedList<AirCraft> airBorneQueue; 
-    private counter Counter;
+    private  LinkedList<AirCraft> airBorneQueue; //**1**
+    private counter Counter; //should be Counter counter
     private boolean isClear;
     
     
 	
     public Runway() {
-    	runwayQueue = new  PriorityQueue<Aircraft>();
-    	airBorneQueue = new  PriorityQueue<Aircraft>();
-        counter = new Counter();
+    	runwayQueue = new  PriorityQueue<Aircraft>(); //**1**
+    	airBorneQueue = new  PriorityQueue<Aircraft>(); //**1**
+        counter = new Counter(); 
+        //im not sure that one counter is made for the runway, i think its supposed to be a counter made each time an
+        //AirCraft is created and the counter should be used as the key, also counter should have a (String name) parameter
         isClear = true;
 }
     
     public void run(){
     	
-    	for (Aircraft aircraft : runwayQueue.toArray(new Aircraft[runwayQueue.size()])){ 
+    	for (Aircraft aircraft : runwayQueue.toArray(new Aircraft[runwayQueue.size()])){ //typo, should be AirCraft aircraft //**2**
     	 aircraft.run();
     	 runwayQueue.add(aircraft);
     	 counter.incrementWaitingTime(aircraft.getWaitingTime());
     	 }
     
-    for (Aircraft  aircraft : airBorneQueue.toArray(new Aircraft[airBorneQueue.size()])) {
+    for (Aircraft  aircraft : airBorneQueue.toArray(new Aircraft[airBorneQueue.size()])){ //typo, should be AirCraft aircraft //**2**
 		
     	aircraft.run();
     	airBorneQueue.add(aircraft);
@@ -36,10 +40,10 @@ public class Runway {
 
 }
 
-  public  LinkedList<Aircraft> getAirborneQueue(){
+  public  LinkedList<Aircraft> getAirborneQueue(){ //**1**
     	return airBorneQueue;
     }
-public  LinkedList<Aircraft> getRunwayQueue() {
+public  LinkedList<Aircraft> getRunwayQueue(){ //**1**
 	return runwayQueue ;
 }
 
@@ -57,7 +61,7 @@ this.isClear = isClear;
 }
 
 public void clearRunway() {
-	counter.clear();
+	counter.clear(); //change from clear to reset (thats what i called it in my counter class, i think)
 	airBorneQueue.clear();
 	runwayQueue.clear();
 }
