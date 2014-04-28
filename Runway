@@ -24,14 +24,14 @@ public class Runway {
 		for (AirCraft aircraft : runwayQueue.toArray(new AirCraft[runwayQueue.size()])){ 
 			aircraft.fly();
 			runwayQueue.add(aircraft);
-			counter.incrementWaitTime();//aircraft.getWaitingTime());
+			aircraft.getWaitingTime());
 		}
 
 		for (AirCraft  aircraft : airBorneQueue.toArray(new AirCraft[airBorneQueue.size()])) {
 
 			aircraft.fly();
 			airBorneQueue.add(aircraft);
-			counter.incrementWaitTime();//aircraft.getWaitingTime());
+			aircraft.getWaitingTime());
 		}
 
 	}
