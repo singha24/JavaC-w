@@ -1,4 +1,5 @@
 import java.util.PriorityQueue;
+import java.util.Random;
 
 /*
  * This Class contain's code to simulate a one runway airport.
@@ -8,12 +9,15 @@ import java.util.PriorityQueue;
 
 public class Simulation {
 	
+	static Random random = new Random();
+	static double rand = random.nextDouble();
+
 	public static void main(String[] args) {
-		
+
 	}
-	
-	private static PriorityQueue<String> queue;
-	
+
+	private static PriorityQueue<AirCraft> queue;
+
 	private static int runTime; //simulation loops
 	private static final int WIDTH = 50;
 	//aircraft arrival probabilities needed 
@@ -21,26 +25,32 @@ public class Simulation {
 //	private static final Random rand  = new Random(SEED);
 	private Runway runway; 
 	private RunwayStats updatedStates;
-	private 
-	
-	
+	protected static boolean wantsToLand;
+
+
 	/**
 	 * @param number of loops to run the simulation 
 	 * @param seed random seed
 	 */
 	public Simulation(int loops, int seed){
-		this(WIDTH, seed); //construct a runway with a seed
+		//this(WIDTH, seed); //construct a runway with a seed
 		runTime = loops; //runTime gets assigned no. of loops
-		queue = new PriorityQueue<String>(); //initilising a priority queue
-		
+		queue = Runway.getAirCraftQueue(); //initilising a priority queue
+
 	}
-	
+
 	/**
 	 *Run the simulation 
 	 */
 	public static void run(){
 		int r = runTime; 
 		for(int i = 0; i < r; i++){
+			AirCraft a = new AirCraft();
+			if(AirCraft.wantsToLand() == true){
+				Runway.landingQueue.offer(a);
+			}else if (AirCraft.wantsToTakeOff() == true){
+				Runway.takeOffQueue.offer(a);
+			}
 			
 		}
 	}
@@ -51,13 +61,15 @@ public class Simulation {
 	public static int getRunTime() {
 		return runTime;
 	}
-	
-	
+
+
 	public void reset(){
 		//reset the runway
 		runTime = 0;
-		runway.clear(); //clear() called from the Runway class
-		
+		runway.clear(); //clear runway
+
 	}
+	
+	
 
 }
