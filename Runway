@@ -1,0 +1,23 @@
+import java.util.PriorityQueue;
+
+
+public class Runway {
+	
+	protected static AirCraft airCraft;
+	protected static PriorityQueue<AirCraft> queue;
+	
+	public void clear(){
+		queue.clear();
+		System.out.print("Air Traffic has been cleared");
+	}
+	
+	public static void addToQueue(AirCraft a){
+		queue.add(a);
+		System.out.print("The aircraft " + getAirCraft() + " has been added to the queue");
+	}
+	
+	public static AirCraft getAirCraft(){
+		return airCraft;
+	}
+	
+}
