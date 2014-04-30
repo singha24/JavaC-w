@@ -1,4 +1,3 @@
-
 public class CommercialFlights extends Aircraft {
 	//Instance Variables
 	private int waitTime;
@@ -25,5 +24,9 @@ public class CommercialFlights extends Aircraft {
 		Aircraft commercialFlights = new CommercialFlights();
 		LightAircraft.fly();
 		System.out.println("lightAircraft flying");
+	}
+	
+	public String getName(){
+		return "CommercialFlight";
 	}
 }
