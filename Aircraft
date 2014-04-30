@@ -1,0 +1,24 @@
+import java.util.Queue;
+
+public class AirCraftFactory {
+	
+	private Queue<AirCraft> airCraftQueue;
+	protected static double commercialCreationProbability; //p needs to be determined though code
+	protected static final double lightCreationProbability = 0.005;
+	protected static double gliderCreationprobability = 0.002;
+	
+	
+	public AirCraftFactory(){
+		
+	}
+	
+	public void buildPlanes(){
+		
+		
+	}
+	
+	public Queue<AirCraft> getQueue(){
+		return airCraftQueue;
+	}
+
+}
