@@ -2,43 +2,34 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class AirCraftFactory {
-  
-  // this is value
-	// p and must be
-	// changed for
-	// safety of
-	// aircraft
-	
-
-	private static final double commercialCreationProbability = 0.95; 
-	
-
-	
+ 
+	private static final double commercialCreationProbability = 0.95; //p value needs to be determined
 	private static final double lightCreationProbability = 0.005;
 	private static final double gliderCreationProbability = 0.002;
+	
+	protected static int fuel = 1;
+	protected static Random rand = new Random(fuel);
 
-	static ArrayList<Plane> listPlanes = new ArrayList<Plane>(); // this should be a priority queue in runway class
+	//static ArrayList<Plane> listPlanes = new ArrayList<Plane>(); // this should be a priority queue in runway class
 
 	//statics only exist in a single existance 
 
 
 	//private static long seedTime = System.currentTimeMillis(); good idea to implement after testing
-	
+
 	private static double num; // maybe make local
 
 	private static int listPlaneSize = 100; // size of array list , this should be in runway class
 
 	private static int seed = 20;
-	
-	
 
-	public AirCraftFactory1(int seed) {
-		seed = this.seed;
-		
+
+
+	public AirCraftFactory(int seed) {
 		buildPlanes();
 
 	}
-	
+
 
 	public static void main(String[] args) {
 
@@ -69,24 +60,24 @@ public class AirCraftFactory {
 
 			if (num <= gliderCreationProbability) { // these names are too big
 
-				Plane glider = new Glider();
-				listPlanes.add(glider);
+				AirCraft glider = new Glider();
+				Runway.addToQueue(glider);
 				System.out.println("glider added");
 
 			}
 
 			else if (num <= lightCreationProbability) {
 
-				Plane lightAircraft = new LightAircraft();
-				listPlanes.add(lightAircraft);
+				AirCraft lightAircraft = new LightAircraft();
+				Runway.addToQueue(lightAircraft);
 				System.out.println("Light Aircraft added");
 
 			}
 
 			else if (num <= commercialCreationProbability) {
 
-				Plane commercialAircraft = new CommericalAircraft();
-				listPlanes.add(commercialAircraft);
+				AirCraft commercialAircraft = new CommericalAircraft(); //method needs to e defined
+				Runway.addToQueue(commercialAircraft);
 				System.out.println("Commercial Aircraft added");
 
 			}
@@ -94,10 +85,10 @@ public class AirCraftFactory {
 
 	}
 
-	
-	public ArrayList<Plane> getQueue() {
+
+	/*public ArrayList<Plane> getQueue() {
 
 		return listPlanes; // no point of this if the queue is within runway
-	}
+	}*/  
 
 }
