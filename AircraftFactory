@@ -38,6 +38,18 @@ public class AirCraftFactory {
 		buildPlanes();
 
 	}
+	
+	public double getCommercial(){
+		return commercialCreationProbability;
+	}
+	
+	public double getLightAircraft(){
+		return lightCreationProbability;
+	}
+	
+	public double getGlider(){
+		return gliderCreationProbability;
+	}
 
 	/*
 	 * private static int randomGenerator() { Random generator = new
