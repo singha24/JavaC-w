@@ -1,29 +1,77 @@
-import java.util.PriorityQueue;
+
+import java.util.LinkedList;
+import java.util.Random;
 
 
 public class Runway {
-	
+
 	protected static AirCraft airCraft;
-	protected static PriorityQueue<AirCraft> landingQueue;
-	protected static PriorityQueue<AirCraft> takeOffQueue;
-	
+	protected static LinkedList<AirCraft> takeOffQueue = new LinkedList<AirCraft>();
+	protected static LinkedList<AirCraft> normalLanding = new LinkedList<AirCraft>();
+	protected static int max = 10;
+	protected static int min = 1;
+	protected static int split;
+	protected static Random rand = new Random();
+
+
 	public void clear(){
-		landingQueue.clear();
+		normalLanding.clear();
 		takeOffQueue.clear();
-		System.out.print("Air Traffic has been cleared");
+		System.out.println("Airport Traffic has been cleared");
 	}
-	
-	public static void addToQueue(AirCraft a){
-		landingQueue.add(a);
-		System.out.print("The aircraft " + getAirCraftQueue() + " has been added to the queue");
+
+	public static void addToTakeOffQueue(AirCraft a){
+		takeOffQueue.add(a);
+		AirCraftFactory.decrementFuel();
+		System.out.println(a.toString() + " added to normal take off queue");
 	}
-	
+
+	public static void addToLandQueue(AirCraft a){
+		normalLanding.add(a);
+		AirCraftFactory.decrementFuel();
+		System.out.println(a.toString() + " added to normal landing queue");
+	}
+
+	/**
+	 * @param AirCraft passed with a probability of either being added to landing queue
+	 * or takeOff queue.
+	 */
+	public static void addToQueueCheck(AirCraft a){
+		if(getCheck() == 3){
+			addToLandQueue(a);
+		}else if(getCheck() == 6){
+			addToTakeOffQueue(a);
+		}
+	}
+
+	/**
+	 * @return a range of numbers between 1-10 randomly
+	 */
+	public static int getCheck(){
+		split = rand.nextInt(max - min + 1) + min;
+		return split;
+	}
+
 	public static void removeFromQueue(){
-		
+
 	}
-	
-	public static PriorityQueue<AirCraft> getAirCraftQueue(){
-		return landingQueue;
+
+	public static int getLandingSize(){
+		return normalLanding.size();
 	}
-	
+
+	public static int getTakeOffSize(){
+		return takeOffQueue.size();
+	}
+
+	public static void addToPriorityQueue(AirCraft a){
+		normalLanding.offerFirst(a);
+		AirCraftFactory.decrementFuel();
+		System.out.println("The aircraft " + a.toString() + " has been added to the priority queue");
+	}
+
+	public static LinkedList<AirCraft> getAirCraftQueue(){
+		return normalLanding;
+	}
+
 }
