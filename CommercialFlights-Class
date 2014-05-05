@@ -1,32 +1,49 @@
-public class CommercialFlights extends Aircraft {
-	//Instance Variables
-	private int waitTime;
-	private int takeOffTime;
-	private int landingTime;
+
+public class CommercialFlight extends AirCraft {
 	
-	//Constructor
-	public CommercialFlights(){
-		Aircraft commercialFlights = new CommercialFlights();
-		int waitTime = 0;
-		int takeOffTime = 2;
-		int landingTime = 3;
+	protected static double p;
+	protected static final int minFuel = 20;
+	protected static final int maxFuel = 40;
+	protected static int minFuelToLand = 5;
+	
+	public CommercialFlight(){
+		waitTime = 0;
+		takeOffTime = 2;
+		landingTime = 3;
 		
 	}
-	//Accessor Methods
-	public int getWaitTime(){
+
+	public void incrementWaitTime() {
+		waitTime++;
+	}
+
+	/* (non-Javadoc)
+	 * @see AirCraft#getWaitTime()
+	 */
+	public int getWaitTime() {
 		return waitTime;
 	}
-	//Calculation Method
-	public int incrementWaitTime(){
-		return waitTime++;
+
+	public int getTakeOffTime() {
+		
+		return takeOffTime;
 	}
-	public void fly(){
-		Aircraft commercialFlights = new CommercialFlights();
-		LightAircraft.fly();
-		System.out.println("lightAircraft flying");
+
+	public int getLandingTime() {
+		return landingTime;
 	}
 	
-	public String getName(){
+	public static double getP(){
+		return p;
+	}
+	
+	public static String pToString(){
+		String temp = String.valueOf(getP());
+		return temp;
+	}
+	
+	public static String getName(){
 		return "CommercialFlight";
 	}
+
 }
