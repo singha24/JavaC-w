@@ -5,7 +5,7 @@ import java.util.Random;
 public class AirCraftFactory {
 
 	protected static final int SEED = 10;
-	protected static final int lowFuel = 5;
+	protected static final int priority = 1;
 
 	protected static double fuel;
 	protected static Random rand = new Random();
@@ -23,24 +23,31 @@ public class AirCraftFactory {
 	protected static double generate;
 	protected static Random spawn = new Random(SEED);
 
-	protected static int fuelMax = 10;
-	protected static int fuelMin = 1;
+	protected static int max = 2;
+	protected static int min = 1;
 	protected static int fuelVal;
 
 
 
 	public AirCraftFactory(int seed) {
-		//buildPlanes();
 
 
+	}
+	
+	public static int split(){
+		fuelVal = rand.nextInt(max - min + 1) + min;
+		return fuelVal;
 	}
 
 	/**
 	 * @return randomy generated fuel level between 1 to 10
 	 */
-	public static int getFuelVal(){
-		fuelVal = rand.nextInt(fuelMax) + fuelMin;
-		return fuelVal;
+	
+	public static void printFuel(){
+		for(int i=0; i< Simulation.getRunTime();i++){
+			fuelVal = rand.nextInt(max - min + 1) + min;
+			System.out.println(fuelVal);
+		}
 	}
 
 	public static double gen(){
@@ -56,50 +63,50 @@ public class AirCraftFactory {
 
 	public static void getFuel(){
 		for(int i = 0; i < Simulation.getRunTime(); i++){
-			System.out.println(getFuelVal());
+			System.out.println(split());
 		}
 
 	}
 
-
 	/**
-	 * Generate AirCrafts 
+	 * Adding aircrafts to linkedlists  according to creation probabilities and fuel value
 	 */
-	public static void genPlanes(){
+	public static void createPlanes(){
 		for(int i = 0; i < Simulation.getRunTime(); i++){
 			if(genToString().equals(LightAircraft.getSpawnValue())){
 				AirCraft light = new LightAircraft();
-				if(getFuelVal() < lowFuel){
+				int a = split();
+				if(a == priority){
 					Runway.addToPriorityQueue(light);
-					System.out.println("Trying to add Light aircraft to priority, with fuel level at " + getFuelVal());
+					System.out.println(light.toString() + " ADDING TO PRIORITY");
 
 				}else{
 					Runway.addToQueueCheck(light);
+					System.out.println(light.toString() + " ADDING TO NORMAL");
 				}
-
-
 			}else if(genToString().equals(Glider.getSpawnValue())){
 				AirCraft glider = new Glider();
-				if(getFuelVal() < lowFuel){
+				int b = split();
+				if(b == priority){
 					Runway.addToPriorityQueue(glider);
-					System.out.println("Trying to add Glider to priority, with fuel level at " + getFuelVal());
+					System.out.println(glider.toString() + " ADDING TO PRIORITY");
 				}else{
+					System.out.println(glider.toString() + "  ADDING TO NORMAL");
 					Runway.addToQueueCheck(glider);
+					
 				}
 			}else if(genToString().equals(CommercialFlight.pToString())){
 				AirCraft comFlight = new CommercialFlight();
-				if(getFuelVal() < lowFuel){
+				int c = split();
+				if(c == priority){
 					Runway.addToPriorityQueue(comFlight);
-					System.out.println("Trying to add CommercialFlight to priority, with fuel level at " + getFuelVal());
+					System.out.println(comFlight.toString() + " ADDING TO PRIORITY");
 				}else{
 					Runway.addToQueueCheck(comFlight);
+					System.out.println(comFlight.toString() + " ADDING TO NORMAL");
 				}
 			}
 		}
-	}
-
-	public static void decrementFuel(){
-		fuelVal--;
 	}
 
 }
