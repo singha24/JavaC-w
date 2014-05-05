@@ -1,14 +1,15 @@
-import java.util.ArrayList;
+
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class AirCraftFactory {
- 
-	private static final double commercialCreationProbability = 0.95; //p value needs to be determined
-	private static final double lightCreationProbability = 0.005;
-	private static final double gliderCreationProbability = 0.002;
-	
-	protected static int fuel = 1;
-	protected static Random rand = new Random(fuel);
+
+	protected static final int SEED = 10;
+	protected static final int lowFuel = 5;
+
+	protected static double fuel;
+	protected static Random rand = new Random();
+	protected static PriorityQueue<AirCraft> Priorityqueue; //if fuel is low of rlanding aircraft add to PQ
 
 	//static ArrayList<Plane> listPlanes = new ArrayList<Plane>(); // this should be a priority queue in runway class
 
@@ -17,78 +18,88 @@ public class AirCraftFactory {
 
 	//private static long seedTime = System.currentTimeMillis(); good idea to implement after testing
 
-	private static double num; // maybe make local
+	protected static double minVal = 0.006; //spawn value
+	protected static double maxVal = 0.001; //spawn value
+	protected static double generate;
+	protected static Random spawn = new Random(SEED);
 
-	private static int listPlaneSize = 100; // size of array list , this should be in runway class
-
-	private static int seed = 20;
+	protected static int fuelMax = 10;
+	protected static int fuelMin = 1;
+	protected static int fuelVal;
 
 
 
 	public AirCraftFactory(int seed) {
-		buildPlanes();
+		//buildPlanes();
+
 
 	}
 
-
-	public static void main(String[] args) {
-
-		System.out.println(seed);
-
-		buildPlanes();
-
+	/**
+	 * @return randomy generated fuel level between 1 to 10
+	 */
+	public static int getFuelVal(){
+		fuelVal = rand.nextInt(fuelMax) + fuelMin;
+		return fuelVal;
 	}
 
-	/*
-	 * private static int randomGenerator() { Random generator = new
-	 * Random(seedTime); // is random.math better num = generator.nextInt(3) +
-	 * 1; System.out.println(num); return num; }
-	 */
+	public static double gen(){
+		generate = minVal + (maxVal - minVal) * spawn.nextDouble();
+		return generate;
+	}
 
-	/*
-	 * private static double randomGenerator() { Random generator = new
-	 * Random(seedTime); // is random.math better num = generator.nextDouble();
-	 * System.out.println(num); return num; }
-	 */
+	public static String genToString(){
+		String temp = String.valueOf(gen());
+		temp = temp.substring(0, Math.min(temp.length(), 5));
+		return temp;
+	}
 
-	public static void buildPlanes() {
-		Random generator = new Random(seed);
-		for (int i = 0; i < listPlaneSize; i++) // ensures the queue is full , could be implemented seperatly
-		{
-			num = generator.nextDouble();
-			System.out.println(num);
-
-			if (num <= gliderCreationProbability) { // these names are too big
-
-				AirCraft glider = new Glider();
-				Runway.addToQueue(glider);
-				System.out.println("glider added");
-
-			}
-
-			else if (num <= lightCreationProbability) {
-
-				AirCraft lightAircraft = new LightAircraft();
-				Runway.addToQueue(lightAircraft);
-				System.out.println("Light Aircraft added");
-
-			}
-
-			else if (num <= commercialCreationProbability) {
-
-				AirCraft commercialAircraft = new CommericalAircraft(); //method needs to e defined
-				Runway.addToQueue(commercialAircraft);
-				System.out.println("Commercial Aircraft added");
-
-			}
+	public static void getFuel(){
+		for(int i = 0; i < Simulation.getRunTime(); i++){
+			System.out.println(getFuelVal());
 		}
 
 	}
 
 
-	/*public ArrayList<Plane> getQueue() {
+	/**
+	 * Generate AirCrafts 
+	 */
+	public static void genPlanes(){
+		for(int i = 0; i < Simulation.getRunTime(); i++){
+			if(genToString().equals(LightAircraft.getSpawnValue())){
+				AirCraft light = new LightAircraft();
+				if(getFuelVal() < lowFuel){
+					Runway.addToPriorityQueue(light);
+					System.out.println("Trying to add Light aircraft to priority, with fuel level at " + getFuelVal());
 
-		return listPlanes; // no point of this if the queue is within runway
-	}*/  
+				}else{
+					Runway.addToQueueCheck(light);
+				}
+
+
+			}else if(genToString().equals(Glider.getSpawnValue())){
+				AirCraft glider = new Glider();
+				if(getFuelVal() < lowFuel){
+					Runway.addToPriorityQueue(glider);
+					System.out.println("Trying to add Glider to priority, with fuel level at " + getFuelVal());
+				}else{
+					Runway.addToQueueCheck(glider);
+				}
+			}else if(genToString().equals(CommercialFlight.pToString())){
+				AirCraft comFlight = new CommercialFlight();
+				if(getFuelVal() < lowFuel){
+					Runway.addToPriorityQueue(comFlight);
+					System.out.println("Trying to add CommercialFlight to priority, with fuel level at " + getFuelVal());
+				}else{
+					Runway.addToQueueCheck(comFlight);
+				}
+			}
+		}
+	}
+
+	public static void decrementFuel(){
+		fuelVal--;
+	}
 
 }
