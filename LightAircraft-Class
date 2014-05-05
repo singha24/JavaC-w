@@ -1,32 +1,45 @@
-public class LightAircraft extends Aircraft{
-	//Instance Variables
-	private int waitTime;
-	private int takeOffTime;
-	private int landingTime;
+import java.util.Random;
+
+
+public class LightAircraft extends AirCraft{
 	
-	//Constructor
+	protected static final int minFuel = 10;
+	protected static final int maxFuel = 20;
+	protected static int minFuelToLand = 5;
+	
 	public LightAircraft(){
-		Aircraft lightAircraft = new LightAircraft();
-		int waitTime = 0;
-		int takeOffTime = 2;
-		int landingTime = 3;
+		waitTime = 0;
+		takeOffTime = 2;
+		landingTime = 3;
 		
 	}
-	//Accessor Methods
-	public int getWaitTime(){
+	
+	public static String getSpawnValue(){
+		return "0.005";
+	}
+
+	public void incrementWaitTime() {
+		waitTime++;
+	}
+
+	public int getWaitTime() {
 		return waitTime;
 	}
-	//Calculation Method
-	public int incrementWaitTime(){
-		return waitTime++;
+
+	public int getTakeOffTime() {
+		return takeOffTime;
 	}
-	public void fly(){
-		Aircraft lightAircraft = new LightAircraft();
-		LightAircraft.fly();
-		System.out.println("lightAircraft flying");	
+
+	public int getLandingTime() {
+		return landingTime;
+	}
+
+	public void fly() {
+		
 	}
 	
-	public String getName(){
+	public static String getName(){
 		return "LightAirCraft";
 	}
+
 }
