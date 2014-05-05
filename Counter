@@ -1,62 +1,56 @@
+
 public class Counter {
 	// the name of this aircraft
 	private String name;
-
+	
 	//the count of aircraft which have taken off
-	private int takeOffCount;
+	private static int takeOffCount;
 	//the count of aircraft which have landed
-	private int landingCount;
-	//the count of the waiting time of the AirCraft
-	private int waitTime;
-
-	//Constructor for counter objects
+	private static int landingCount;
+	
 	public Counter(String name){
 		this.name = name;
-		takeOffCount = 0;
-		landingCount = 0;
+		
+			}
+	
+	public static void stats(){
+		System.out.println("Number of planes added the landing queue " + getLandingCount());
+		System.out.println("Number of planes added the TakeOff queue " + getTakeOffCount());
 	}
-
+	
 	//return the number of take offs for this plane
-	public int getTakeOffCount(){
+	public static int getTakeOffCount(){
+		takeOffCount = Runway.getTakeOffSize();
 		return takeOffCount;
 	}
-
-
+	
+	
 	//return the nuymber of landings for this plane
-	public int getLandingCount(){
+	public static int getLandingCount(){
+		landingCount = Runway.getLandingSize();
+
 		return landingCount;
 	}
-
+	
 	//return the name of this aircraft
 	public String getName(){
 		return name;
 	}
 	
-	//return the current waiting time
-	public int getWaitingTime(){
-		return waitTime;
-	}
-
 	//reset the values of both counts (probably needed for when the simulation is over, ready for the next one
-	public void reset(){
+	public static void reset(){
 		takeOffCount = 0;
 		landingCount = 0;
-		waitTime = 0;
-	}
-
-	//increments the number of take offs
-	public void incrementTakeOff(){
-		takeOffCount ++;
-	}
-
-	//increments the number of lanidngs
-	public void incrementLanding(){
-		landingCount ++;
 	}
 	
-	//return the current waiting time
-	public void incrementWaitTime(){
-		waitTime++;
+	//increments the number of take offs
+	public static void incrementTakeOff(){
+		takeOffCount ++;
+	}
+	
+	//increments the number of lanidngs
+	public static void incrementLanding(){
+		landingCount ++;
 	}
 
 }
