@@ -1,4 +1,4 @@
-import java.util.PriorityQueue;
+
 import java.util.Random;
 
 /*
@@ -9,23 +9,31 @@ import java.util.Random;
 
 public class Simulation {
 	
-	static Random random = new Random();
+	
+	protected static final int SEED = 10;
+	static Random random = new Random(SEED);
 	static double rand = random.nextDouble();
+	static boolean runwayBusy;
+	static int busyness;
 
 	public static void main(String[] args) {
-
+		setP();
+		AirCraftFactory.createPlanes();
+		Counter.stats();
+		for(int i = 0; i < 100; i++){
+			run();
+		}
+	}
+	
+	public static void setP(){
+		CommercialFlight.p = 0.003;
 	}
 
-	private static PriorityQueue<AirCraft> queue;
-
-	private static int runTime; //simulation loops
-	private static final int WIDTH = 50;
-	//aircraft arrival probabilities needed 
-//	private static final int SEED = 42;
-//	private static final Random rand  = new Random(SEED);
-	private Runway runway; 
-	private RunwayStats updatedStates;
+	protected static int runTime = 100; //simulation loops
+	//private static final int WIDTH = 50;
+	private static Runway runway; 
 	protected static boolean wantsToLand;
+
 
 
 	/**
@@ -34,25 +42,47 @@ public class Simulation {
 	 */
 	public Simulation(int loops, int seed){
 		//this(WIDTH, seed); //construct a runway with a seed
-		runTime = loops; //runTime gets assigned no. of loops
-		queue = Runway.getAirCraftQueue(); //initilising a priority queue
 
 	}
+	
+	
+
 
 	/**
 	 *Run the simulation 
 	 */
-	public static void run(){
-		int r = runTime; 
-		for(int i = 0; i < r; i++){
+	public static void run(){ 
+		/*for(int i = 0; i < runTime; i++){
 			AirCraft a = new AirCraft();
 			if(AirCraft.wantsToLand() == true){
-				Runway.landingQueue.offer(a);
+				Runway.landingQueue.offer(a); //insert type aircraft into priority queue
 			}else if (AirCraft.wantsToTakeOff() == true){
-				Runway.takeOffQueue.offer(a);
+				Runway.takeOffQueue.offer(a); //insert type aircraft to take off priority queue
 			}
-			
+		}*/
+		
+		//if the runway is clear remove a plane from landing and increment landing counter
+		busyness --;
+		if(busyness == 0){
+			runwayBusy = false; //change runway to not busy so the next plane can land or take off
 		}
+		if(Runway.normalLanding.peek() != null && runwayBusy == false){
+			//checks takeOff queue to see if it is clear and checks runway busy so nothing can happen while busy
+				AirCraft landingPlane = Runway.normalLanding.poll(); //remove the plane from the landing queue
+				Counter.incrementLanding(); //increment the number of planes landed so far
+				busyness = landingPlane.getLandingTime(); //busyness is equal to landing time of the currently landing plane
+				//this means that the runway will be busy until this plane finishes landing
+				runwayBusy = true; //make runway busy intil this plane has landed
+		}
+		else if(Runway.takeOffQueue.peek() != null && runwayBusy == false){
+				AirCraft landingPlane = Runway.takeOffQueue.poll(); //remove the plane from the landing queue
+				Counter.incrementTakeOff(); //increment the number of planes landed so far
+				busyness = landingPlane.getTakeOffTime(); //busyness is equal to take off time of the currently landing plane
+				//this means that the runway will be busy until this plane finishes landing
+				runwayBusy = true; //make runway busy intil this plane has landed
+		}
+		
+		Counter.stats();
 	}
 
 	/**
@@ -63,13 +93,13 @@ public class Simulation {
 	}
 
 
-	public void reset(){
+	public static void reset(){
 		//reset the runway
 		runTime = 0;
 		runway.clear(); //clear runway
 
 	}
-	
-	
+
+
 
 }
