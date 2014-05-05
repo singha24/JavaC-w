@@ -26,6 +26,14 @@ public class AirCraftFactory {
 	protected static int max = 2;
 	protected static int min = 1;
 	protected static int fuelVal;
+	
+	protected static int comercialMax = CommercialFlight.maxFuel;
+	protected static int commercialMin = CommercialFlight.minFuel;
+	protected static int lightMax = LightAircraft.maxFuel;
+	protected static int lightMin = LightAircraft.minFuel;
+	
+	protected static int comLand = CommercialFlight.minFuelToLand;
+	protected static int lightLand = LightAircraft.minFuelToLand;
 
 
 
@@ -34,8 +42,13 @@ public class AirCraftFactory {
 
 	}
 	
-	public static int split(){
-		fuelVal = rand.nextInt(max - min + 1) + min;
+	public static int setLightFuel(){
+		fuelVal = rand.nextInt(lightMax - lightMin + 1) + lightMin;
+		return fuelVal;
+	}
+	
+	public static int setComFuel(){
+		fuelVal = rand.nextInt(comercialMax - commercialMin + 1) + commercialMin;
 		return fuelVal;
 	}
 
@@ -61,13 +74,6 @@ public class AirCraftFactory {
 		return temp;
 	}
 
-	public static void getFuel(){
-		for(int i = 0; i < Simulation.getRunTime(); i++){
-			System.out.println(split());
-		}
-
-	}
-
 	/**
 	 * Adding aircrafts to linkedlists  according to creation probabilities and fuel value
 	 */
@@ -75,10 +81,10 @@ public class AirCraftFactory {
 		for(int i = 0; i < Simulation.getRunTime(); i++){
 			if(genToString().equals(LightAircraft.getSpawnValue())){
 				AirCraft light = new LightAircraft();
-				int a = split();
-				if(a == priority){
+				int a = setLightFuel();
+				if(a <= lightLand){
 					Runway.addToPriorityQueue(light);
-					System.out.println(light.toString() + " ADDING TO PRIORITY");
+					System.out.println(light.toString() + " ADDING TO PRIORITY " + a);
 
 				}else{
 					Runway.addToQueueCheck(light);
@@ -86,21 +92,23 @@ public class AirCraftFactory {
 				}
 			}else if(genToString().equals(Glider.getSpawnValue())){
 				AirCraft glider = new Glider();
-				int b = split();
-				if(b == priority){
-					Runway.addToPriorityQueue(glider);
-					System.out.println(glider.toString() + " ADDING TO PRIORITY");
+				AirCraft lightAir = createLight();
+				int b = 40; //20minutes 
+				if(b <= lightLand){
+					Runway.addToPriorityQueue(lightAir);
+					System.out.println(lightAir.toString() + " ADDING TO PRIORITY " + b);
 				}else{
 					System.out.println(glider.toString() + "  ADDING TO NORMAL");
-					Runway.addToQueueCheck(glider);
+					Runway.addToQueueCheck(lightAir);
+					Runway.addToTakeOffQueue(glider);
 					
 				}
 			}else if(genToString().equals(CommercialFlight.pToString())){
 				AirCraft comFlight = new CommercialFlight();
-				int c = split();
-				if(c == priority){
+				int c =  setComFuel();
+				if(c <= comLand){
 					Runway.addToPriorityQueue(comFlight);
-					System.out.println(comFlight.toString() + " ADDING TO PRIORITY");
+					System.out.println(comFlight.toString() + " ADDING TO PRIORITY " + c);
 				}else{
 					Runway.addToQueueCheck(comFlight);
 					System.out.println(comFlight.toString() + " ADDING TO NORMAL");
@@ -109,4 +117,9 @@ public class AirCraftFactory {
 		}
 	}
 
+	public static AirCraft createLight(){
+		AirCraft light = new LightAircraft();
+		return light;
+	}
+	
 }
